@@ -1,5 +1,7 @@
 package com.titaniel.clockoutofclocks
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class ClockOutOfClocks : Application()
+@HiltAndroidApp
+class ClockOutOfClocks: Application()
