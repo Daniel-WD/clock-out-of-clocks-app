@@ -6,14 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDateTime
 import javax.inject.Inject
+import kotlin.math.ceil
 
 @HiltViewModel
 class ClockViewModel @Inject constructor() : ViewModel() {
@@ -263,7 +260,16 @@ fun MiniClock(clockState: ClockState) {
 @Composable
 fun MiniClock(bigDeg: Float, smallDeg: Float) {
 
-    val animSpec = tween<Float>(800)
+//    var lastBig by remember { mutableStateOf(0f) }
+//    var lastSmall by remember { mutableStateOf(0f) }
+//
+//    val realBig = if(lastBig.mod(360f) != bigDeg) ceil(lastBig/360f) * 360 + bigDeg else lastBig
+//    val realSmall = if(lastSmall.mod(360f) != smallDeg) ceil(lastSmall/360f) * 360 + smallDeg else lastSmall
+//
+//    lastBig = realBig
+//    lastSmall = realSmall
+
+    val animSpec = tween<Float>(durationMillis = 500)
 
     val smallDegAnim by animateFloatAsState(targetValue = smallDeg, animationSpec = animSpec)
     val bigDegAnim by animateFloatAsState(targetValue = bigDeg, animationSpec = animSpec)
@@ -286,7 +292,10 @@ fun MiniClock(bigDeg: Float, smallDeg: Float) {
                 .rotate(smallDegAnim)
                 .padding(bottom = pointerShorter, top = 0.dp /*unitSize*/)
                 .size(unitSize, size)
-                .background(color = MaterialTheme.colors.onBackground, shape = RoundedCornerShape(100))
+                .background(
+                    color = MaterialTheme.colors.onBackground,
+                    shape = RoundedCornerShape(100)
+                )
         )
 
         // Big one
@@ -295,7 +304,10 @@ fun MiniClock(bigDeg: Float, smallDeg: Float) {
                 .rotate(bigDegAnim)
                 .padding(bottom = pointerShorter)
                 .size(unitSize, size)
-                .background(color = MaterialTheme.colors.onBackground, shape = RoundedCornerShape(100))
+                .background(
+                    color = MaterialTheme.colors.onBackground,
+                    shape = RoundedCornerShape(100)
+                )
         )
 
     }
